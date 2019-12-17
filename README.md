@@ -13,10 +13,48 @@
 Пример: function fib(n: integer): integer;
 
 
-S -> Function (arguments): type
-S -> Procedure (arguments)
-arguments -> []
-arguments -> names : type
-arguments -> arguments ; names : type
-names -> SingleName
-names -> names, SingleName
+
+### Грамматика:
+
+* S -> function(arguments):type;
+* S -> procedure(arguments);
+* arguments -> eps
+* arguments -> names:type
+* arguments -> arguments;names:type
+* names -> names
+* names -> names,singleName
+
+Нетерминалы:
+* S - сигнатура всей функции (процедуры)
+* arguments - аргументы функции
+* names - имена аргументов определённого типа
+
+### Грамматика без левой рекурсии:
+
+* S -> function ( arguments ) : type ;
+* S -> procedure ( arguments ) ;
+* arguments -> eps
+* arguments -> names : type arguments'
+* arguments' -> eps
+* arguments' -> ; names : type arguments'
+* names -> singleName names'
+* names' -> eps
+* names' -> , singleName names'
+
+Нетерминалы:
+* S - сигнатура всей функции (процедуры)
+* arguments - аргументы функции (начало аргументов)
+* arguments' - продолжение аргументов функции
+* names - имена аргументов определённого типа(начало)
+* names' - продолжение имён аргументов определённого типа 
+
+
+### Множества FIRST и FOLLOW
+ 
+|            | first                 | follow |
+|------------|-----------------------|--------|
+| S          | { function, procedure } |  { $ }   |
+| arguments  |   { eps, singleName }   | { ')' }  |
+| arguments' |      { eps, ';' }       | { ')' }  |
+| names      |     { singleName }      | { ':' }  |
+| names'     |      { eps, ',' }       | { ':' }  |

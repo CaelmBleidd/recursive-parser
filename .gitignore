@@ -1,3 +1,5 @@
 ./cmake-build-debug
 /recursive-parser.iml
 /.idea/
+/out/
+/lib/
